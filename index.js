@@ -58,7 +58,20 @@ router.get('/profile', (req,res) => {
     }
 */
 router.get('/login', (req,res) => {
-  res.send('This is login router');
+  var username = req.query.username
+  var password = req.query.password
+
+  let file = fs.readFile(__dirname + "/user.json")
+
+  let userName = JSON.stringify(file.username)
+
+  console.log(userName)
+
+  /*let response = {
+    username = "bret",
+    password = "bret@123"
+  }*/
+
 });
 
 
