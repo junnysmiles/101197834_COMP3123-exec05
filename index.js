@@ -97,6 +97,8 @@ router.get('/login', (req,res) => {
 - Modify /logout route to accept username as parameter and display message
     in HTML format like <b>${username} successfully logout.<b>
 */
+
+// http://localhost:8081/logout?username=bret
 router.get('/logout', (req,res) => {
   var username = req.query.username
   res.send(`<b>${username} successfully logged out.</b>`)
