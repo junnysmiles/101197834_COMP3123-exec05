@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 - Return home.html page to client
 */
 app.get('/home.html', (req,res) => {
-  
+  // Sending the html file with the <h1> message
   res.sendFile(__dirname + "/home.html")
 });
 
@@ -27,6 +27,7 @@ app.get('/home.html', (req,res) => {
 - Return all details from user.json file to client as JSON format
 */
 router.get('/profile', (req,res) => {
+  // Reading file of user.json and returning it
   fs.readFile(__dirname + "/user.json", "utf-8", (err, data) => {
     if (err) {
       throw err
@@ -57,21 +58,38 @@ router.get('/profile', (req,res) => {
         message: "Password is invalid"
     }
 */
+
+// http://localhost:8081/login?username=bret&password=bret@123
 router.get('/login', (req,res) => {
+  // Reading user.json file
+  let file = fs.readFileSync(__dirname + "/user.json")
+
+  // Accessing data of the file by using JSON.parse
+  let parsed = JSON.parse(file)
+
+  // Setting the URL query
   var username = req.query.username
   var password = req.query.password
 
-  let file = fs.readFile(__dirname + "/user.json")
+  // Accessing the username and password data of the user.json file
+  let user = parsed.username
+  let pass = parsed.password
 
-  let userName = JSON.stringify(file.username)
+  // If statements to check the username and password
+  if (username == user && password == pass) {
+    res.send("Status: True, User is valid.")
+    res.end
+  }
 
-  console.log(userName)
+  if (username != user) {
+    res.send("Status: False, User Name is invalid.")
+    res.end
+  }
 
-  /*let response = {
-    username = "bret",
-    password = "bret@123"
-  }*/
-
+  if (password != pass) {
+    res.send("Status: False, Password is invalid.")
+    res.end
+  }
 });
 
 
@@ -80,7 +98,8 @@ router.get('/login', (req,res) => {
     in HTML format like <b>${username} successfully logout.<b>
 */
 router.get('/logout', (req,res) => {
-  res.send('This is logout router');
+  var username = req.query.username
+  res.send(`<b>${username} successfully logged out.</b>`)
 });
 
 
